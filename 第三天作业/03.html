@@ -7,26 +7,50 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        #div1{
-            border:2px solid #000;
+        #div1 {
+            border: 2px solid #000;
         }
-        #div2{
+
+        #div2 {
             background: red;
             height: 100px;
         }
     </style>
-</head>
 
 <body>
     <div id="app">
-        <input type="text">
-        <div id='div1'></div>
-        <div id='div2'></div>
+        <input type="text" v-model='widthList'>
+        <div id='div1' :style='{width:widthList+"px"}'></div>
+        <div id='div2' :style='{width:dv2Width}' v-text='change<600?"请不要再小了":dv2Width'></div>
+
     </div>
 </body>
+<script src="../js/vue.js"></script>
 <script>
     //在文本框内输入数字，根据数字可以改变div1的宽
     //保证div2的宽始终是div1宽的一半.
     //如果div2的宽度小于300,其内容显示:不要再小了
+
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            widthList: 600,
+            change: ''
+        },
+        computed: {
+            dv2Width() {
+                return this.widthList / 2 + "px"
+            }
+        },
+        watch: {
+            widthList: {
+                handler(newVal) {
+                    console.log(newVal)
+                    this.change = newVal;
+                }
+            }
+        },
+    })
 </script>
+
 </html>
