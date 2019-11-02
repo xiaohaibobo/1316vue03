@@ -11,9 +11,10 @@
 <body>
     <div id="app">
         <!-- <p v-text='msg'></p>  相当于<p>{{msg}}</p> -->
-       
+
         <p v-html='html'></p>
-       
+        <input type="text" v-model.number='num' @click='fun'>
+
     </div>
 
 </body>
@@ -23,7 +24,13 @@
         el: '#app',
         data: {
             msg: "哈哈哈",
-            html: '<i>啦啦啦啦</i>'
+            html: '<i>啦啦啦啦</i>',
+            num: ''
+        },
+        methods: {
+            fun() {
+                console.log(this.num)
+            }
         },
     })
 </script>
