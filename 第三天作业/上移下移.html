@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+
+<body>
+	<div id='div'>
+		<input type="text" placeholder="请输入要添加的内容：" v-model='cont' />
+		<input type="button" value="发表" @click='insertFunc' />
+		<ul>
+			<!-- <li>
+					<span></span><span></span>
+					<input type="button" value="上移"  />					
+					<input type="button" value="下移"  />
+					<input type="button" value="删除" />
+					<input type="button" value="编辑" />
+				</li> -->
+			<li v-for='(d,i) in arr'>
+				<span></span>{{i+1}}: <span :contenteditable="d.edit">{{d.content}}</span>
+				<input type="button" value="上移" @click='upmoveFunc(i)'/>
+				<input type="button" value="下移" @click='downmoveFunc(i)'/>
+				<input type="button" value="删除" @click='delFunc(i)'/>
+				<input type="button" value="编辑" @click='editFunc(i)'/>
+			</li>
+		</ul>
+	</div>
+</body>
+<script src="../js/vue.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+	//		arr.splice()来实现上移下移
+	//		arr:[{content:1111,edit:true},{content:222222,edit:false}]
+
+	let vm = new Vue({
+		el: '#div',
+		data: {
+			cont: '',
+			arr: [
+				{ content: '1111', edit: false },
+				{ content: '2222', edit: false },
+				{ content: '3333', edit: false },
+				{ content: '4444', edit: false },
+				{ content: '5555', edit: false }
+			],
+			
+		},
+		methods: {
+			insertFunc() {
+				// let contobj = this.cont;
+				let contobj= { content: this.cont, edit: false };
+				if(this.cont!=''){
+					this.arr.push(contobj);
+				}
+				
+			},
+			upmoveFunc(i){
+				if(i!=0){
+				 this.arr[i]=this.arr.splice(i-1,1,this.arr[i])[0];
+				
+				}else{
+					alert('已经是最上面啦！')
+				}
+			},
+			downmoveFunc(i){
+				if(i!=this.arr.length-1){
+				 this.arr[i]=this.arr.splice(i+1,1,this.arr[i])[0];
+				}else{
+					alert('已经是最下面啦！')
+				}
+			},
+			delFunc(i){
+				this.arr.splice(i,1);
+			},
+			editFunc(i){
+				this.arr[i].edit = true;
+			}
+		}
+	});
+
+</script>
+
+</html>

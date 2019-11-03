@@ -12,20 +12,13 @@
 		<input type="button" value="发表" @click='report' />
 		<ul>
 			<li v-for='(d,i) in cont'>
-				<span v-for='(d,i) in cont'>{{i}}</span>
-				<span v-for='(d,i) in input'>{{d}}</span>
-				<input type="button" :value="d" v-for='(d,i) in btnCont' />
-				<!-- <input type="button" value="下移" />
-				<input type="button" value="删除" />
-				<input type="button" value="编辑" /> -->
+				<span></span>{{i+1}}：
+				<span :contenteditable="d.edit">{{d.content}}</span>
+				<input type="button" value="上移" @click='upmoveFunc(i)' />
+				<input type="button" value="下移" @click='downmoveFunc(i)' />
+				<input type="button" value="删除" @click='delFunc(i)' />
+				<input type="button" value="编辑" @click='editFunc(i)' />
 			</li>
-			<!-- <li>
-				<span contenteditable="true">11111111</span><span></span>
-				<input type="button" value="上移" />
-				<input type="button" value="下移" />
-				<input type="button" value="删除" />
-				<input type="button" value="编辑" />
-			</li> -->
 		</ul>
 	</div>
 </body>
@@ -37,12 +30,41 @@
 		el: '#app',
 		data: {
 			btnCont: ["上移", "下移", "删除", "编辑"],
-			input: [],
-			cont: [{},{}]
+			input: '',
+			cont: [
+				{ content: '1111', edit: false },
+				{ content: '2222', edit: false },
+				{ content: '3333', edit: false },
+				{ content: '4444', edit: false },
+				{ content: '5555', edit: false }
+			]
 		},
 		methods: {
 			report() {
-				this.cont.push(this.input);
+				let newData = { content: this.input, edit: false }
+				if (this.input != '') {
+					this.cont.push(newData);
+				}
+			},
+			upmoveFunc(i) {
+				if (i != 0) {
+					this.cont[i] = this.cont.splice(i - 1, 1, this.cont[i])[0];
+				} else {
+					alert('已经是最上面的啦！');
+				}
+			},
+			downmoveFunc(i) {
+				if (i != this.cont.length - 1) {
+					this.cont[i] = this.cont.splice(i + 1, 1, this.cont[i])[0];
+				} else {
+					alert('已经是最下面的啦！');
+				}
+			},
+			editFunc(i) {
+				this.cont[i].edit = true;
+			},
+			delFunc(i) {
+				this.cont.splice(i, 1)
 			}
 		},
 	})
